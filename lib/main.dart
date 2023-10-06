@@ -21,11 +21,17 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
+  var userQuestion = '';
+  var userAnswer = '';
+  
+
   final List<String> buttons = [
     'C',
     'DEL',
@@ -56,7 +62,33 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Expanded(
-            child: Container(),
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      userQuestion,
+                      style: TextStyle(fontSize: 20,color: Colors.deepPurple[900],),
+                      
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      userAnswer,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+              ),
+            ),
           ),
           Expanded(
             child: Container(
@@ -65,29 +97,44 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4),
                 itemBuilder: (BuildContext context, int index) {
-                  if (index==0) {
+                  if (index == 0) {
                     return MyButton(
-                    textcolor: const Color.fromARGB(255, 255, 255, 255),
-                    bgcolor: Colors.green,
-                    buttonText: buttons[index],
-                  );
-                  } else if(index==1){
+                      buttonTapped:(){
+                        setState(() {
+                          userQuestion='';
+                        });
+                      },
+                      textcolor: const Color.fromARGB(255, 255, 255, 255),
+                      bgcolor: Colors.green,
+                      buttonText: buttons[index],
+                    );
+                  } else if (index == 1) {
                     return MyButton(
-                    textcolor: Colors.white,
-                    bgcolor: Colors.red,
-                    buttonText: buttons[index],
-                  );
-                  }
-                  else{
+                      buttonTapped: (){
+                        setState(() {
+                          userQuestion=userQuestion.substring(0,userQuestion.length-1);
+                        });
+                      },
+                      textcolor: Colors.white,
+                      bgcolor: Colors.red,
+                      buttonText: buttons[index],
+                    );
+                  } else {
                     return MyButton(
-                    textcolor: isOperator(buttons[index])
-                        ? Colors.white
-                        : Colors.deepPurple,
-                    bgcolor: isOperator(buttons[index])
-                        ? Colors.deepPurple
-                        : Colors.white,
-                    buttonText: buttons[index],
-                  );
+                      
+                      buttonTapped: () {
+                        setState(() {
+                          userQuestion += buttons[index];
+                        });
+                      },
+                      textcolor: isOperator(buttons[index])
+                          ? Colors.white
+                          : Colors.deepPurple,
+                      bgcolor: isOperator(buttons[index])
+                          ? Colors.deepPurple
+                          : Colors.white,
+                      buttonText: buttons[index],
+                    );
                   }
                 },
               ),
