@@ -165,10 +165,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void equalPressed() {
+  Future<void> equalPressed() async {
     String finalQuestion=userQuestion;
-    finalQuestion=finalQuestion.replaceAll('x','*');
-  Parser s = Parser();
+    finalQuestion=finalQuestion.replaceAll('X','*');
+  Parser s = await Parser();
   Expression exp = s.parse(finalQuestion);
     ContextModel cm = ContextModel();
     double eval = exp.evaluate(EvaluationType.REAL, cm);
